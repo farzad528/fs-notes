@@ -1,0 +1,11 @@
+node_modules/
+public/
+resources/
+.hugo_build.lock
+.tools/
+.cache/
+.test-work/
+.review/
+.DS_Store
+Thumbs.db
+*.log
