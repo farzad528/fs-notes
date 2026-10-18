@@ -1,0 +1,23 @@
+{
+  "name": "fs-notes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "new-post": "node scripts/new-post.mjs",
+    "prepare-post": "node scripts/prepare-post.mjs",
+    "pages-preflight": "node scripts/pages-preflight.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs",
+    "visual-preview": "node scripts/visual-preview.mjs",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "parse5": "8.0.1",
+    "yaml": "2.9.1"
+  }
+}

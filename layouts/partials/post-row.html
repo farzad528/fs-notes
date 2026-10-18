@@ -1,0 +1,27 @@
+{{ $featured := .featured }}
+{{ with .page }}
+<article class="{{ if $featured }}featured{{ else }}post{{ end }} post-row">
+  <div class="post-row__meta">
+    {{ if $featured }}<span class="label">Latest note</span>{{ end }}
+    {{ partial "date.html" (dict "page" . "format" (cond $featured "2 January 2006" "2 Jan 2006")) }}
+    {{ if not $featured }}<span aria-hidden="true"> · </span>{{ end }}
+    <span>{{ .ReadingTime }} min{{ if $featured }} read{{ end }}</span>
+  </div>
+  <div class="post-row__body">
+    {{ if $featured }}
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ else }}
+    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    {{ end }}
+    <div class="excerpt">{{ .RenderString (dict "display" "block") .Params.excerpt }}</div>
+    {{ if $featured }}
+    <div class="actions">
+      <a class="btn btn--primary" href="{{ .RelPermalink }}">Read the full note<span class="sr-only">: {{ .Title }}</span>{{ partial "arrow.html" . }}</a>
+      {{ with .Params.topics }}<span class="tags">{{ delimit . " · " }}</span>{{ end }}
+    </div>
+    {{ else }}
+    <a class="read-more" href="{{ .RelPermalink }}">Read the full note<span class="sr-only">: {{ .Title }}</span> <span aria-hidden="true">→</span></a>
+    {{ end }}
+  </div>
+</article>
+{{ end }}

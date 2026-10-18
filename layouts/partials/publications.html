@@ -1,0 +1,4 @@
+{{ $pages := where site.RegularPages "Type" "posts" }}
+{{ $pages = where $pages "PublishDate" "le" now }}
+{{ if not site.Params.previewDrafts }}{{ $pages = where $pages "Draft" false }}{{ end }}
+{{ return ($pages.ByPublishDate.Reverse) }}

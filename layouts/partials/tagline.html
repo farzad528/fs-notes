@@ -1,0 +1,5 @@
+{{- $parts := split site.Params.tagline "leading" -}}
+{{- range $index, $part := $parts -}}
+  {{- if $index }}<em>leading</em>{{ end -}}
+  {{- $part -}}
+{{- end -}}

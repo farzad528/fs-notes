@@ -1,0 +1,34 @@
+{{ define "main" }}
+<main id="main" class="wrap">
+  <section class="hero">
+    <p class="eyebrow">A notebook by Farzad</p>
+    <h1>{{ partial "tagline.html" . }}</h1>
+  </section>
+  {{ $pager := .Paginate (partial "publications.html" .) }}
+  {{ $earlier := $pager.Pages }}
+  {{ if and (eq $pager.PageNumber 1) $pager.Pages }}
+    {{ with index $pager.Pages 0 }}{{ partial "post-row.html" (dict "page" . "featured" true) }}{{ end }}
+    {{ $earlier = after 1 $pager.Pages }}
+  {{ end }}
+  {{ if not $pager.Pages }}<p class="empty-state">Essays coming soon.</p>{{ end }}
+  {{ if $earlier }}
+  <section aria-labelledby="earlier">
+    <div class="list-head">
+      <h2 id="earlier">{{ if eq $pager.PageNumber 1 }}Earlier notes{{ else }}Older notes{{ end }}</h2>
+      <a href="{{ "archive/" | relURL }}">All notes</a>
+    </div>
+    {{ range $earlier }}{{ partial "post-row.html" (dict "page" . "featured" false) }}{{ end }}
+  </section>
+  {{ end }}
+  {{ if gt $pager.TotalPages 1 }}
+  <nav class="pagination" aria-label="Pagination">
+    {{ with $pager.Prev }}<a rel="prev" href="{{ .URL }}">← Newer notes</a>{{ end }}
+    <span>Page {{ $pager.PageNumber }} of {{ $pager.TotalPages }}</span>
+    {{ with $pager.Next }}<a rel="next" href="{{ .URL }}">Older notes →</a>{{ end }}
+  </nav>
+  {{ end }}
+  <div class="list-foot">
+    <a class="btn btn--ghost" href="{{ "archive/" | relURL }}">Browse the archive</a>
+  </div>
+</main>
+{{ end }}
