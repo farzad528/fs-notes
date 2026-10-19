@@ -1,0 +1,30 @@
+{{ define "main" }}
+{{ if eq .Type "posts" }}
+<main id="main">
+  <article class="article">
+    <a class="back" href="{{ site.Home.RelPermalink }}">← All notes</a>
+    <div class="article-meta">
+      {{ partial "date.html" (dict "page" .) }}
+      <span aria-hidden="true">·</span><span>{{ .ReadingTime }} min read</span>
+      {{ with .Params.topics }}<span aria-hidden="true">·</span><span>{{ delimit . ", " }}</span>{{ end }}
+    </div>
+    <h1>{{ .Title }}</h1>
+    <div class="lede">{{ .RenderString (dict "display" "block") .Params.excerpt }}</div>
+    <div class="prose">{{ .Content }}</div>
+    {{ with .Params.topics }}
+    <div class="tags-row">
+      <span>Filed under</span>
+      {{ range . }}<a class="chip" href="{{ "archive/" | relURL }}">{{ . }}</a>{{ end }}
+    </div>
+    {{ end }}
+  </article>
+  {{ partial "next-note.html" . }}
+</main>
+{{ else }}
+<main id="main" class="page prose-page">
+  <p class="eyebrow">{{ .Title }}</p>
+  <h1>{{ .Title }}</h1>
+  <div class="prose">{{ .Content }}</div>
+</main>
+{{ end }}
+{{ end }}

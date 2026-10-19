@@ -1,0 +1,19 @@
+{{ define "main" }}
+<main id="main" class="wrap archive">
+  <section class="hero">
+    <p class="eyebrow">Archive</p>
+    <h1>{{ .Title }}</h1>
+  </section>
+  {{ $pages := partial "publications.html" . }}
+  {{ range $pages.GroupByPublishDate "2006" }}
+  <h2 class="archive-year">{{ .Key }}</h2>
+  <ul>
+    {{ range .Pages }}
+    <li>{{ partial "date.html" (dict "page" . "format" "2 Jan") }}<a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{ end }}
+  </ul>
+  {{ else }}
+  <p class="empty-state">Essays coming soon.</p>
+  {{ end }}
+</main>
+{{ end }}

@@ -1,0 +1,17 @@
+{{ $next := false }}
+{{ $found := false }}
+{{ range partial "publications.html" . }}
+  {{ if and $found (not $next) }}{{ $next = . }}{{ end }}
+  {{ if eq .RelPermalink $.RelPermalink }}{{ $found = true }}{{ end }}
+{{ end }}
+{{ with $next }}
+<nav class="next" aria-label="Next note">
+  <a href="{{ .RelPermalink }}">
+    <span class="eyebrow">Next note</span>
+    <span class="title">{{ .Title }}</span>
+    <span class="go">Keep reading <span aria-hidden="true">→</span></span>
+  </a>
+</nav>
+{{ else }}
+<div class="article-end" aria-hidden="true"></div>
+{{ end }}

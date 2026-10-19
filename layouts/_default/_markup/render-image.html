@@ -1,0 +1,10 @@
+{{ if not .PlainText }}{{ errorf "Image alt text is required in %s" .Page.File.Path }}{{ end }}
+{{ $url := .Destination }}
+{{ if not (urls.Parse $url).IsAbs }}
+  {{ if hasPrefix $url "/" }}
+    {{ $url = strings.TrimPrefix "/" $url | absURL }}
+  {{ else }}
+    {{ $url = printf "%s%s" .Page.Permalink $url }}
+  {{ end }}
+{{ end }}
+<img src="{{ $url | safeURL }}" alt="{{ .PlainText }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">

@@ -1,0 +1,43 @@
+baseURL: https://farzad528.github.io/fs-notes/
+locale: en-GB
+title: fs notes
+timeZone: Europe/London
+enableRobotsTXT: true
+disableKinds:
+  - taxonomy
+  - term
+  - section
+taxonomies: {}
+pagination:
+  disableAliases: true
+  pagerSize: 5
+permalinks:
+  posts: /posts/:slug/
+params:
+  author: Farzad Sunavala
+  tagline: Notes on building, deploying, and leading with AI.
+  description: Executive perspectives on enterprise AI, economics, customers, safety, policy, and impact.
+  previewDrafts: false
+markup:
+  goldmark:
+    renderer:
+      unsafe: false
+    extensions:
+      table: true
+  highlight:
+    noClasses: false
+outputs:
+  home:
+    - HTML
+    - RSS
+    - SITEMAP
+outputFormats:
+  SITEMAP:
+    mediaType: application/xml
+    baseName: sitemap
+    isPlainText: true
+    notAlternative: true
+sitemap:
+  disable: true
+build:
+  noJSConfigInAssets: true

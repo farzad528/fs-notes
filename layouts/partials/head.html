@@ -1,0 +1,49 @@
+{{ $title := site.Title }}
+{{ if not .IsHome }}{{ $title = printf "%s | %s" .Title site.Title }}{{ end }}
+{{ $description := .Description | default site.Params.description }}
+{{ $canonical := .Permalink }}
+{{ if .IsHome }}
+  {{ $pager := .Paginate (partial "publications.html" .) }}
+  {{ $canonical = $pager.URL | absURL }}
+{{ end }}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FAFAF7">
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $description }}">
+<meta name="author" content="{{ .Params.author | default site.Params.author }}">
+<link rel="canonical" href="{{ $canonical }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:url" content="{{ $canonical }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="{{ if eq .Type "posts" }}article{{ else }}website{{ end }}">
+{{ if eq .Type "posts" }}
+<meta property="article:author" content="{{ .Params.author }}">
+<meta property="article:published_time" content="{{ .PublishDate.Format "2006-01-02T15:04:05-07:00" }}">
+<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }}">
+{{ $article := dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "description" $description
+  "url" .Permalink
+  "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+  "author" (dict "@type" "Person" "name" .Params.author)
+  "datePublished" (.PublishDate.Format "2006-01-02T15:04:05-07:00")
+  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00")
+}}
+<script type="application/ld+json">{{ $article | jsonify | safeJS }}</script>
+{{ end }}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $description }}">
+<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ "index.xml" | absURL }}">
+{{ range slice "newsreader-latin-opsz-normal.woff2" "hanken-grotesk-latin-wght-normal.woff2" }}
+<link rel="preload" href="{{ printf "fonts/%s" . | relURL }}" as="font" type="font/woff2" crossorigin="anonymous">
+{{ end }}
+{{ with resources.Get "css/site.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+{{ end }}
