@@ -4,7 +4,8 @@ This public source repository uses GitHub Pages Free eligibility. The domain
 `farzadwrites.com` stays registered at Hostinger; no Hostinger web-hosting or
 website-builder package is required.
 
-Only generated `public/` is uploaded by Actions. Initial canonical origin:
+Only generated `public/` is uploaded by Actions. The approved canonical URL is
+`https://farzadwrites.com/`; the initial origin was
 `https://farzad528.github.io/fs-notes/`. The one authoritative base URL is
 `config/_default/hugo.yaml`; do not put a second production URL in workflows.
 
@@ -24,6 +25,13 @@ Only generated `public/` is uploaded by Actions. Initial canonical origin:
 6. Wait for DNS/certificate provisioning, enable Enforce HTTPS, and verify apex,
    `www` redirect, project-origin behavior, and live content.
 
+The initial project-origin release completed on 19 October 2026, with real
+HTTPS smoke in Actions run `39236136817`. The owner subsequently verified the
+domain in GitHub and approved attachment/canonical deployment at 13:08 London.
+The ownership TXT was observed on the authoritative Hostinger nameserver.
+Do not store the verification token in public source. Domain routing and
+certificate completion remain pending until their live results are observed.
+
 Do not disable privacy/security controls or make a private editorial repository
 public as a shortcut. This public repository began with fresh history.
 
@@ -41,6 +49,11 @@ These are **proposed**, not evidence of applied changes.
 | Add | A | @ | none | `185.199.111.153` | 300 |
 | Replace | CNAME | www | `farzadwrites.com` | `farzad528.github.io` | 300 |
 | Add ownership proof | TXT | `_github-pages-challenge-farzad528` | none | Exact GitHub-supplied token | 300 |
+
+The owner added the TXT record and GitHub verified it on 19 October. Preserve
+that existing TXT record; do not create a second token or delete the proof.
+The A/CNAME routing changes above were previewed to the owner and remain
+owner-operated in Hostinger. Read the current zone before editing.
 
 GitHub's official current IPv6 records may optionally be added alongside IPv4:
 `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`,

@@ -150,6 +150,26 @@ test('custom HTTPS fails closed on missing, unapproved, expired, malformed, or w
   }
 });
 
+test('a verified custom domain can bootstrap from the API HTTP URL without passing HTTPS readiness', () => {
+  const pending = {
+    html_url: 'http://notes.test/',
+    https_enforced: false,
+    https_certificate: null,
+  };
+  const report = evaluateCustom(pending);
+  assert.equal(report.configurationReady, true);
+  assert.equal(report.ready, false);
+  assert.equal(report.httpsPending, true);
+  assert.match(report.blockers.join('\n'), /HTTPS is not enforced/);
+  for (const html_url of [
+    'http://other.test/', 'http://notes.test/wrong/', 'http://notes.test/?x=1',
+    'http://notes.test/#about', 'http://notes.test:8080/', 'http://user:pass@notes.test/',
+  ]) assert.equal(evaluateCustom({ ...pending, html_url }).configurationReady, false);
+  assert.equal(evaluateCustom({ ...pending, protected_domain_state: 'pending' }).configurationReady, false);
+  assert.equal(evaluateCustom({ ...pending, https_enforced: true }).configurationReady, false);
+  assert.equal(evaluate({ pages: { ...project, html_url: 'http://writer.github.io/notes/', https_enforced: false } }).configurationReady, false);
+});
+
 test('certificate evaluation is deterministic and needs explicit time; wildcards cover one label only', () => {
   const input = { repository, pages: custom, baseURL: custom.html_url, now: NOW };
   const original = structuredClone(input);
@@ -297,6 +317,12 @@ test('CLI reports ready and enforces configured versus HTTPS-ready gates indepen
   }
   assert.equal((await cli(['--require-configured'], pending)).code, 0);
   assert.equal((await cli(['--require-ready'], pending)).code, 1);
+  const pendingHTTP = {
+    ...pending,
+    api: mockApi({ ...custom, html_url: 'http://notes.test/', https_certificate: null, https_enforced: false }),
+  };
+  assert.equal((await cli(['--require-configured'], pendingHTTP)).code, 0);
+  assert.equal((await cli(['--require-ready'], pendingHTTP)).code, 1);
   for (const flag of ['--require-configured', '--require-ready']) {
     assert.equal((await cli([flag], { api: mockApi({ ...project, build_type: 'legacy' }) })).code, 1);
   }
