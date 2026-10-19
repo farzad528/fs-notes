@@ -18,6 +18,13 @@ params:
   tagline: Notes on building, deploying, and leading with AI.
   description: Executive perspectives on enterprise AI, economics, customers, safety, policy, and impact.
   previewDrafts: false
+  socials:
+    - name: GitHub
+      url: https://github.com/farzad528
+    - name: X
+      url: https://x.com/farzad528
+    - name: LinkedIn
+      url: https://www.linkedin.com/in/farzadsunavala/
 markup:
   goldmark:
     renderer:

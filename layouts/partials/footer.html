@@ -7,6 +7,9 @@
     <nav aria-label="Footer">
       <a href="{{ "about/" | relURL }}">About</a>
       <a href="{{ "index.xml" | relURL }}">RSS</a>
+      {{ range site.Params.socials }}
+      <a href="{{ .url }}" rel="me">{{ .name }}</a>
+      {{ end }}
     </nav>
   </div>
 </footer>

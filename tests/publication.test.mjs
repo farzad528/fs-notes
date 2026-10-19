@@ -265,6 +265,39 @@ test('replacement navigation, serif tagline, local fonts and redistributed licen
   assert.match(await read(root, 'index.html'), /A &lt;new&gt; &amp; <em>leading<\/em> notebook\./);
 });
 
+test('confirmed social profiles render across pages at project and root bases without changing primary navigation', async t => {
+  const root = await fixture(t);
+  await post(root, 'social-profiles');
+  const profiles = [
+    ['GitHub', 'https://github.com/farzad528'],
+    ['X', 'https://x.com/farzad528'],
+    ['LinkedIn', 'https://www.linkedin.com/in/farzadsunavala/'],
+  ];
+  for (const baseURL of ['https://farzad528.github.io/fs-notes/', 'https://notes.test/']) {
+    await build({ root, baseURL, quiet: true });
+    for (const route of ['index.html', 'about/index.html', 'archive/index.html', 'posts/social-profiles/index.html', '404.html']) {
+      const document = parse(await read(root, route));
+      const footer = nodes(document, 'nav').find(node => attr(node, 'aria-label') === 'Footer');
+      const links = nodes(footer, 'a');
+      assert.deepEqual(links.map(textContent), ['About', 'RSS', ...profiles.map(([name]) => name)]);
+      assert.deepEqual(links.slice(0, 2).map(node => attr(node, 'href')), ['about/', 'index.xml'].map(route => `${new URL(baseURL).pathname}${route}`));
+      assert.deepEqual(links.slice(2).map(node => [textContent(node), attr(node, 'href')]), profiles);
+      for (const link of links.slice(2)) {
+        assert.equal(attr(link, 'rel'), 'me');
+        assert.equal(attr(link, 'target'), undefined);
+      }
+      assert.deepEqual(nodes(primaryNav(document), 'a').map(textContent), ['Notes', 'About', 'RSS']);
+    }
+  }
+  const filename = path.join(root, 'config', '_default', 'hugo.yaml');
+  const config = parseYaml(await fs.readFile(filename, 'utf8'));
+  delete config.params.socials;
+  await fs.writeFile(filename, stringify(config));
+  await build({ root, quiet: true });
+  const footer = nodes(parse(await read(root, 'index.html')), 'nav').find(node => attr(node, 'aria-label') === 'Footer');
+  assert.deepEqual(nodes(footer, 'a').map(textContent), ['About', 'RSS']);
+});
+
 test('archive metadata and the exact public route inventory remain strict', async t => {
   const root = await fixture(t);
   const filename = path.join(root, 'content', 'archive', 'index.md');
