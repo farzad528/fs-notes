@@ -111,7 +111,12 @@ export function evaluatePagesReadiness({ repository, pages, baseURL, now } = {})
     }
   }
   try {
-    if (httpsBase(pages.html_url).href !== base.href) blockers.push('Pages html_url does not match the normalized central baseURL; reconcile the canonical destination before deployment.');
+    const advertised = new URL(pages.html_url);
+    // Pages advertises HTTP until a newly attached domain's certificate is ready.
+    if (customDomain && pages.https_enforced !== true && advertised.protocol === 'http:') {
+      advertised.protocol = 'https:';
+    }
+    if (httpsBase(advertised.href).href !== base.href) blockers.push('Pages html_url does not match the normalized central baseURL; reconcile the canonical destination before deployment.');
   } catch {
     blockers.push('Pages html_url is not a valid canonical HTTPS destination; verify Pages settings against the central baseURL.');
   }

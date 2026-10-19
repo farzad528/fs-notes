@@ -1,41 +1,39 @@
 # Launch state
 
-Recorded 18 October 2026, Europe/London.
-
-The owner requested a clean public publication repository with a labeled Lorem
-ipsum demonstration of the article/deployment pipeline. The previous repository
-was renamed privately; its history, editorial backlog, private runbooks, and
-reference captures are not imported here.
+Updated 19 October 2026, Europe/London.
 
 | Item | Observed state |
 |---|---|
-| Public repository | `https://github.com/farzad528/fs-notes`, newly created with fresh history. |
-| Launch PR | `https://github.com/farzad528/fs-notes/pull/1`, open and unmerged. |
-| Local public checkout | `C:\dev\fs-notes-public`. |
-| Design | Supplied Margin layout, licensed self-hosted fonts; no design change in this split. |
-| Demonstration | Explicitly labeled Lorem ipsum article, not a finished essay or customer claim. |
-| Canonical first origin | `https://farzad528.github.io/fs-notes/`; configured URL is not proof of deployment. |
-| Pages settings | Actions source enabled on the new public repository; API reports enforced project-origin HTTPS. |
-| Deployment approval | `SITE_LAUNCH_APPROVED` remains unset; no article release or deployed smoke has occurred. |
-| Domain | `farzadwrites.com`, registered at Hostinger according to owner-provided active-domain evidence. |
-| DNS | Parking A `2.57.91.91`, `www` CNAME to apex last observed; no routing mutation applied by this implementation. |
-| Domain cutover | Pending GitHub ownership TXT, Pages custom-domain configuration, approved DNS diff, and certificate readiness. |
+| Public source | `https://github.com/farzad528/fs-notes`; fresh publication history without private editorial material. |
+| Local checkout | `C:\dev\fs-notes-public`. |
+| Initial launch | PR #1 merged with owner approval as `ee5983c`; project-origin deployment completed. |
+| Live initial release | `https://farzad528.github.io/fs-notes/`, with the clearly labeled Lorem ipsum pipeline demo. |
+| Release evidence | https://github.com/farzad528/fs-notes/actions/runs/39236136817 succeeded in build, deployment, and actual live HTTPS smoke. |
+| Launch gate | `SITE_LAUNCH_APPROVED=true`, enabled after explicit owner approval. |
+| Registered domain | `farzadwrites.com` at Hostinger. |
+| Ownership proof | Owner added the GitHub TXT record; authoritative DNS returned the supplied value and GitHub displayed Verified. |
+| Canonical cutover | Owner approved domain attachment and canonical-URL deployment at 13:08 London on 19 October. Source base URL is now `https://farzadwrites.com/`. |
+| Routing/certificate | Not yet confirmed live at the custom domain. Hostinger A/CNAME changes and GitHub certificate provisioning must complete before declaring domain launch successful. |
 
-The intake helper preserves exact approved Markdown, real London publication
-times, stable update dates/slugs/assets, and explicit draft/publish authority.
-Read-only preflight blocks mismatched Pages destinations. The workflow deploys
-only a checked generated artifact from trusted `main` after launch approval.
+The original release displayed the demo on home and its stable
+`/posts/pipeline-demo/` article route, with loaded fonts and correct canonical
+URLs. The live smoke covered article, archive, RSS, sitemap, assets, and TLS.
+Article publication dates were preserved.
 
-Observed evidence for source commit `a896670`:
+The custom-domain update changes only the central base URL and release
+documentation. It does not rewrite article copy, change established slugs, add
+social profiles from other PRs, or modify the visual design. The shared Hugo URL
+helpers generate root-relative assets and custom-domain metadata automatically.
 
-- `npm run check`: 63 local tests passed and strict production build rendered the
-  one clearly labeled demo.
-- Public CI: https://github.com/farzad528/fs-notes/actions/runs/39169386731
-  completed successfully, including `npm ci` from public npm URLs.
-- Read-only `pages-preflight --require-ready` passed against the configured
-  project origin. This checks Pages API state, not a deployed HTTP response.
-- Local production preview returned HTTP 200 at
-  `http://localhost:4174/fs-notes/`; public-safe captures are in `docs/review/`.
+The ownership TXT is public DNS evidence but is intentionally not committed
+here. Preserve it in Hostinger. No nameserver reset, wildcard record, or email
+record changes are required. Exact proposed A/CNAME changes are in `hosting.md`.
 
-Inspect the PR's latest checks after later revisions. Do not infer live content,
-completed domain routing, or deployed TLS verification from build/API readiness.
+The deploy workflow separates configuration readiness from HTTPS readiness.
+The build can proceed once the verified custom-domain configuration matches
+the base URL, including the API's temporary HTTP address during certificate
+provisioning. This permits only matching verified hostname/path configuration,
+not a successful HTTP release or disabled final TLS validation.
+The post-deployment HTTPS/smoke checks may remain blocked while
+DNS or certificate provisioning is pending; that is not a successful domain
+release. Re-run the trusted release after those prerequisites complete.
