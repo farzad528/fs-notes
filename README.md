@@ -53,8 +53,9 @@ Cloud-agent mode requires a human merge. See [Publishing](docs/publishing.md).
 
 The production canonical URL is `https://farzadwrites.com/`, registered at
 Hostinger. The demo first launched at `https://farzad528.github.io/fs-notes/`.
-Domain attachment, DNS routing, and HTTPS provisioning are distinct steps; see
-the recorded [launch state](docs/launch-status.md) for the current cutover state.
+The custom domain is live with enforced HTTPS; HTTP, `www`, and the original
+Pages address redirect to the canonical URL. See the recorded
+[launch state](docs/launch-status.md) for release evidence.
 
 See [Hosting](docs/hosting.md) for the exact record plan and
 [Maintenance](docs/maintenance.md) for dependency updates and rollback.
