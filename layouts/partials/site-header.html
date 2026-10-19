@@ -1,10 +1,17 @@
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
-    <nav class="nav" aria-label="Primary">
-      <a href="{{ site.Home.RelPermalink }}"{{ if .IsHome }} aria-current="page"{{ end }}>Notes</a>
-      <a href="{{ "about/" | relURL }}"{{ if eq .RelPermalink ("about/" | relURL) }} aria-current="page"{{ end }}>About</a>
-      <a href="{{ "index.xml" | relURL }}">RSS</a>
+    <div class="site-identity">
+      <a class="brand" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
+      <span class="brand-separator" aria-hidden="true">|</span>
+      <nav class="nav" aria-label="Primary">
+        <a href="{{ "index.xml" | relURL }}">RSS</a>
+      </nav>
+    </div>
+    {{ with site.Params.socials }}
+    <nav class="nav connect-nav" aria-label="Connect">
+      <span class="connect-label">Connect</span>
+      {{ partial "social-links.html" . }}
     </nav>
+    {{ end }}
   </div>
 </header>

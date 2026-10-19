@@ -1,4 +1,4 @@
-# FS Notes public publication
+# fs writes public publication
 
 Read `docs/publishing.md` for content tasks and `docs/hosting.md` for release work.
 
@@ -7,6 +7,8 @@ Read `docs/publishing.md` for content tasks and `docs/hosting.md` for release wo
   unpublished source notes, or reference captures. Keep private work outside
   this repository, not merely behind `draft: true`.
 - Preserve the supplied Margin layout and small static Hugo architecture.
+  Keep the owner's simplified `fs writes | RSS` header and Connect profiles;
+  do not restore About navigation or the removed notebook eyebrow.
   Keep bundled font licenses intact. No redesign, tracking, newsletter,
   database, or executable browser JavaScript without owner approval.
 - Supplied final copy plus "publish" authorizes preparation of a focused content
