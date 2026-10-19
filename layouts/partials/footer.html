@@ -1,15 +1,9 @@
 <footer class="site-footer">
   <div class="wrap">
-    <div>
-      <span class="brand">{{ site.Title }}</span>
-      <span>{{ site.Params.tagline }}</span>
-    </div>
+    <a class="brand" href="{{ site.Home.RelPermalink }}">{{ site.Title }}</a>
     <nav aria-label="Footer">
-      <a href="{{ "about/" | relURL }}">About</a>
       <a href="{{ "index.xml" | relURL }}">RSS</a>
-      {{ range site.Params.socials }}
-      <a href="{{ .url }}" rel="me">{{ .name }}</a>
-      {{ end }}
+      {{ partial "social-links.html" site.Params.socials }}
     </nav>
   </div>
 </footer>

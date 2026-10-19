@@ -1,7 +1,6 @@
 {{ define "main" }}
 <main id="main" class="wrap">
   <section class="hero">
-    <p class="eyebrow">A notebook by Farzad</p>
     <h1>{{ partial "tagline.html" . }}</h1>
   </section>
   {{ $pager := .Paginate (partial "publications.html" .) }}

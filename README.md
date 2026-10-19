@@ -1,4 +1,4 @@
-# fs notes
+# fs writes
 
 A static publication by Farzad Sunavala: notes on building, deploying, and
 leading with AI. Hugo generates article pages, the latest-first homepage,
@@ -41,7 +41,7 @@ It requires no browser JavaScript, server, database, analytics, or comments.
 Give an authenticated agent the final article and say:
 
 ```text
-Publish this final draft on FS Notes.
+Publish this final draft on fs writes.
 Title: [title]
 [approved article text]
 ```

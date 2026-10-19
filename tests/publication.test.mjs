@@ -58,7 +58,9 @@ test('empty production has original identity, accessible metadata and no uninten
   assert.equal(result.articles, 0);
   const html = await read(root, 'index.html');
   assert.match(html, /Essays coming soon\./);
-  assert.match(html, /Notes on building, deploying, and leading with AI\./);
+  assert.equal(textContent(nodes(parse(html), 'h1')[0]), 'Notes on building, deploying, and leading with AI.');
+  assert.equal(textContent(nodes(parse(html), 'title')[0]), 'fs writes');
+  assert.equal(xmlValues(await read(root, 'index.xml'), 'title')[0], 'fs writes');
   assert.equal(nodes(parse(html), 'script').length, 0);
   assert.equal(nodes(parse(html), 'h1').length, 1);
   assert.match(html, /href="#main"/);
@@ -219,13 +221,20 @@ test('replacement navigation, serif tagline, local fonts and redistributed licen
   for (const baseURL of ['https://farzad528.github.io/fs-notes/', 'https://notes.test/']) {
     await build({ root, baseURL, quiet: true });
     const base = new URL(baseURL).pathname;
-    for (const [route, current] of [['index.html', 'Notes'], ['about/index.html', 'About'], ['archive/index.html', null], ['posts/navigation/index.html', null], ['404.html', null]]) {
+    for (const route of ['index.html', 'about/index.html', 'archive/index.html', 'posts/navigation/index.html', '404.html']) {
       const html = await read(root, route);
       const document = parse(html);
       const nav = primaryNav(document);
-      assert.deepEqual(nodes(nav, 'a').map(textContent), ['Notes', 'About', 'RSS']);
-      assert.deepEqual(nodes(nav, 'a').map(node => attr(node, 'href')), [base, `${base}about/`, `${base}index.xml`]);
-      assert.deepEqual(nodes(nav, 'a').filter(node => attr(node, 'aria-current') === 'page').map(textContent), current ? [current] : []);
+      assert.deepEqual(nodes(nav, 'a').map(textContent), ['RSS']);
+      assert.deepEqual(nodes(nav, 'a').map(node => attr(node, 'href')), [`${base}index.xml`]);
+      assert.deepEqual(nodes(nav, 'a').filter(node => attr(node, 'aria-current') === 'page'), []);
+      assert.equal(textContent(nodes(document, 'a').find(node => hasClass(node, 'brand'))), 'fs writes');
+      assert.equal(attr(nodes(document, 'a').find(node => hasClass(node, 'brand')), 'href'), base);
+      assert.equal(textContent(nodes(document, 'span').find(node => hasClass(node, 'brand-separator'))), '|');
+      for (const navigation of nodes(document, 'nav')) {
+        assert(!nodes(navigation, 'a').some(node => textContent(node) === 'About'));
+      }
+      assert(!html.includes('A notebook by Farzad'));
       assert.equal(nodes(document, 'header').filter(node => hasClass(node, 'site-header')).length, 1);
       assert(!/top-band|post-summary|site-subtitle|footer-content/.test(html));
       assert.equal(nodes(document, 'h1').length, 1);
@@ -279,14 +288,16 @@ test('confirmed social profiles render across pages at project and root bases wi
       const document = parse(await read(root, route));
       const footer = nodes(document, 'nav').find(node => attr(node, 'aria-label') === 'Footer');
       const links = nodes(footer, 'a');
-      assert.deepEqual(links.map(textContent), ['About', 'RSS', ...profiles.map(([name]) => name)]);
-      assert.deepEqual(links.slice(0, 2).map(node => attr(node, 'href')), ['about/', 'index.xml'].map(route => `${new URL(baseURL).pathname}${route}`));
-      assert.deepEqual(links.slice(2).map(node => [textContent(node), attr(node, 'href')]), profiles);
-      for (const link of links.slice(2)) {
+      assert.deepEqual(links.map(textContent), ['RSS', ...profiles.map(([name]) => name)]);
+      assert.equal(attr(links[0], 'href'), `${new URL(baseURL).pathname}index.xml`);
+      assert.deepEqual(links.slice(1).map(node => [textContent(node), attr(node, 'href')]), profiles);
+      const connect = nodes(document, 'nav').find(node => attr(node, 'aria-label') === 'Connect');
+      assert.deepEqual(nodes(connect, 'a').map(node => [textContent(node), attr(node, 'href')]), profiles);
+      for (const link of [...links.slice(1), ...nodes(connect, 'a')]) {
         assert.equal(attr(link, 'rel'), 'me');
         assert.equal(attr(link, 'target'), undefined);
       }
-      assert.deepEqual(nodes(primaryNav(document), 'a').map(textContent), ['Notes', 'About', 'RSS']);
+      assert.deepEqual(nodes(primaryNav(document), 'a').map(textContent), ['RSS']);
     }
   }
   const filename = path.join(root, 'config', '_default', 'hugo.yaml');
@@ -294,8 +305,10 @@ test('confirmed social profiles render across pages at project and root bases wi
   delete config.params.socials;
   await fs.writeFile(filename, stringify(config));
   await build({ root, quiet: true });
-  const footer = nodes(parse(await read(root, 'index.html')), 'nav').find(node => attr(node, 'aria-label') === 'Footer');
-  assert.deepEqual(nodes(footer, 'a').map(textContent), ['About', 'RSS']);
+  const document = parse(await read(root, 'index.html'));
+  const footer = nodes(document, 'nav').find(node => attr(node, 'aria-label') === 'Footer');
+  assert.deepEqual(nodes(footer, 'a').map(textContent), ['RSS']);
+  assert(!nodes(document, 'nav').some(node => attr(node, 'aria-label') === 'Connect'));
 });
 
 test('archive metadata and the exact public route inventory remain strict', async t => {

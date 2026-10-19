@@ -6,7 +6,8 @@ Keep editorial planning and unapproved drafts outside this repository.
 
 ## Prepare a new article
 
-The owner supplies final copy with "Publish this final draft on FS Notes."
+The owner supplies final copy with "Publish this final draft on fs writes."
+The former publication name, FS Notes, remains a recognized conversational alias.
 Choose a stable lowercase slug and preserve the exact wording. Derive a short
 description and explicit Markdown excerpt from that copy, without adding
 claims. Save the approved body and excerpt as UTF-8 files in a protected

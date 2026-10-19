@@ -82,10 +82,13 @@ a, h1, h2, h3, h4, h5, h6, .prose, .excerpt, .lede, .next .title { overflow-wrap
   justify-content: space-between; align-items: center;
 }
 .brand { font-family: var(--serif); font-size: 24px; font-weight: 500; text-decoration: none; letter-spacing: -0.01em; color: var(--ink); }
+.site-identity { display: flex; align-items: center; gap: 16px; }
+.brand-separator, .connect-label { color: var(--muted); }
 .nav { display: flex; flex-wrap: wrap; gap: 28px; font-size: 15px; }
 .nav a { text-decoration: none; color: var(--muted); }
 .nav a[aria-current="page"] { color: var(--ink); }
 .nav a:hover { color: var(--accent); }
+.connect-nav { align-items: center; }
 .site-footer { border-top: 1px solid var(--rule); }
 .site-footer .wrap {
   padding-top: 40px; padding-bottom: 56px;
