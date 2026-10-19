@@ -59,6 +59,7 @@ GitHub deployment, DNS routing, and HTTPS are distinct steps; see the recorded
 See [Hosting](docs/hosting.md) for the exact record plan and
 [Maintenance](docs/maintenance.md) for dependency updates and rollback.
 
-The [launch PR](https://github.com/farzad528/fs-notes/pull/1) contains the initial
-demo and pipeline. It remains unmerged; Pages is configured for Actions, but
-the launch gate and domain cutover are still pending.
+The [launch PR](https://github.com/farzad528/fs-notes/pull/1) was merged with the
+owner's approval on 19 October 2026. The labeled demo is live at
+https://farzad528.github.io/fs-notes/ through the Actions pipeline.
+`farzadwrites.com` ownership verification and DNS cutover remain pending.
