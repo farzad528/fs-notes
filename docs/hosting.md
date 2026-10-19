@@ -10,6 +10,10 @@ Only generated `public/` is uploaded by Actions. Initial canonical origin:
 
 ## Release stages
 
+The project-origin launch completed on 19 October 2026:
+https://farzad528.github.io/fs-notes/ is live. Steps 1-2 below are complete for
+the labeled demo; domain verification and steps 3-6 remain pending.
+
 1. Merge the checked implementation PR. Enable Pages with GitHub Actions as its
    source and explicitly approve the labeled demonstration launch.
 2. Deploy and verify the project origin, including `/fs-notes/` paths, article,
