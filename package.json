@@ -17,7 +17,7 @@
     "smoke": "node scripts/smoke.mjs"
   },
   "devDependencies": {
-    "parse5": "8.0.1",
+    "parse5": "8.1.0",
     "yaml": "2.9.1"
   }
 }
