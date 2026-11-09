@@ -30,16 +30,18 @@ HTTPS smoke in Actions run `39236136817`. The owner subsequently verified the
 domain in GitHub and approved attachment/canonical deployment at 13:08 London.
 The ownership TXT was observed on the authoritative Hostinger nameserver.
 Do not store the verification token in public source. Domain routing and
-certificate completion remain pending until their live results are observed.
+certificate completion were subsequently observed: `https://farzadwrites.com/`
+is live with enforced HTTPS. Secure deployment run `39270631113` succeeded.
 
 Do not disable privacy/security controls or make a private editorial repository
 public as a shortcut. This public repository began with fresh history.
 
-## Exact proposed DNS changes
+## Owner-applied DNS routing
 
 The owner's supplied DNS screen and public lookup showed the following parking
-records on 18 October 2026. Re-read the current zone before applying anything.
-These are **proposed**, not evidence of applied changes.
+records on 18 October 2026. The owner applied the following changes on 19 October;
+both authoritative servers and public DNS confirmed the resulting A/CNAME
+values. Re-read the current zone before making any further changes.
 
 | Operation | Type | Host | Old value | New value | TTL |
 |---|---|---|---|---|---|
@@ -53,7 +55,8 @@ These are **proposed**, not evidence of applied changes.
 The owner added the TXT record and GitHub verified it on 19 October. Preserve
 that existing TXT record; do not create a second token or delete the proof.
 The A/CNAME routing changes above were previewed to the owner and remain
-owner-operated in Hostinger. Read the current zone before editing.
+owner-operated in Hostinger; they are now applied. Read the current zone before
+editing.
 
 GitHub's official current IPv6 records may optionally be added alongside IPv4:
 `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`,
@@ -87,20 +90,34 @@ Actions source, canonical hostname/path, and custom-domain ownership. The third
 also requires enforced, approved, unexpired certificate coverage. HTTP 404 means
 unconfigured/inaccessible, not a proved plan decision.
 
-After a deployed release:
+After a deployed release, use the current canonical URL:
 
 ```powershell
-npm run smoke -- https://farzad528.github.io/fs-notes/
-# After the approved domain cutover:
 npm run smoke -- https://farzadwrites.com/
 ```
 
-No real HTTPS success is claimed until these commands run against the actual
-deployed site. See `launch-status.md` for observations.
+The original Pages address now redirects and is not a separate canonical smoke
+target. These commands passed against the real custom-domain release; see
+`launch-status.md` for observations.
+
+## Recover stalled certificate creation
+
+Check DNS, GitHub Pages health, conflicting A/AAAA records, CAA policy, and
+account-level domain verification before changing configuration. If GitHub
+continues reporting no certificate after the documented provisioning period,
+its supported recovery is removing and readding the custom domain in Pages.
+Keep account verification and the TXT proof intact, restore the same domain
+immediately, and verify it is attached before leaving the operation.
+
+Enable Enforce HTTPS only when the covering certificate is ready. Validate
+actual TLS and redirects, then rerun the trusted deployment. Never bypass
+certificate errors, disable verification, or treat a default `*.github.io`
+certificate as valid for a custom hostname.
 
 ## Official sources
 
 - https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
 - https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
 - https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages
+- https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https
 - https://www.hostinger.com/support/1583249-how-to-manage-dns-records-at-hostinger/
